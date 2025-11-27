@@ -1,0 +1,298 @@
+---
+import { Image } from 'astro:assets';
+import sihs from "../../public/sihs.png";
+import paraguacu from "../../public/paraguacu.jpg";
+import type { ImageMetadata } from 'astro';
+
+const experiences = [
+  {
+    company: "SIHS - Secretaria de Infraestrutura Hidrica e Saneamento",
+    role: "Junior Developer",
+    period: "2025 - Present",
+    description:
+      "Development of internal systems to optimize processes, automate workflows, and improve operational efficiency.",
+    technologies: [
+      "TypeScript",
+      "React",
+      "Express",
+      "TailwindCSS",
+      "LDAP",
+      "PostgreSQL",
+      "Windows Server",
+      "CMD",
+      "REST APIs",
+      "Git",
+      "CI/CD"
+    ],
+    logo: sihs as ImageMetadata,
+    isImage: true
+  },
+  {
+    company: "Paraguaçu Engenharia",
+    role: "Technical Support",
+    period: "2024 - 2025",
+    description:
+      "Specialized technical support, infrastructure monitoring, system maintenance, and critical issue resolution.",
+    technologies: [
+      "L1/L2 Support",
+      "Infrastructure",
+      "Troubleshooting",
+      "Windows Server",
+      "Active Directory",
+      "Hardware Maintenance",
+      "Networking",
+      "Software Installation & Configuration",
+      "System Monitoring",
+      "Helpdesk",
+      "Ticketing Tools"
+    ],
+    logo: paraguacu as ImageMetadata,
+    isImage: true
+  },
+  {
+    company: "Freelancer",
+    role: "Web Developer",
+    period: "2022 - Present",
+    description:
+      "Development of custom websites and web applications, focusing on performance, SEO, accessibility, and user experience.",
+    technologies: [
+      "JavaScript",
+      "React",
+      "Express",
+      "PostgreSQL",
+      "Node.js",
+      "TailwindCSS",
+      "Figma",
+      "Vite",
+      "Responsive Design",
+      "API Integration",
+      "Git & GitHub",
+      "SEO Optimization",
+      "UI/UX"
+    ],
+    logo: "🎯",
+    isImage: false
+  }
+];
+---
+
+<section id="experience" class="w-full py-20 px-4 relative overflow-hidden">
+  <div class="max-w-5xl mx-auto">
+    <!-- Section Title -->
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl md:text-5xl font-bold text-[var(--white)] mb-4">
+        Experiences
+      </h2>
+      <p class="text-[var(--white-icon)] text-lg">
+        My Professional Experiences
+      </p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="relative">
+      <!-- Vertical Line -->
+      <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[#ffffff20] to-transparent timeline-line"></div>
+
+      <!-- Experiences -->
+      <div class="space-y-16">
+        {experiences.map((exp, index) => (
+          <div 
+            class={`experience-card flex flex-col md:flex-row gap-8 relative ${
+              index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+            }`}
+            data-index={index}
+          >
+            <!-- Logo/Icon -->
+            <div class="flex md:justify-center items-start md:items-center md:flex-1">
+              <div class="relative">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#ffffff15] to-[#ffffff05] border border-[#ffffff20] flex items-center justify-center backdrop-blur-sm company-logo z-10 relative overflow-hidden">
+                  {exp.isImage ? (
+                    <Image 
+                      src={exp.logo as ImageMetadata} 
+                      alt={exp.company}
+                      class="w-full h-full object-cover"
+                      width={500}
+                      height={500}
+                    />
+                  ) : (
+                    <span class="text-3xl">{exp.logo}</span>
+                  )}
+                </div>
+                <!-- Timeline Dot -->
+                <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[var(--white)] opacity-0 timeline-dot"></div>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="md:flex-1">
+              <div class="bg-gradient-to-br from-[#ffffff08] to-[#ffffff03] rounded-xl p-6 border border-[#ffffff10] backdrop-blur-sm hover:border-[#ffffff30] transition-all duration-300 card-content">
+                <!-- Header -->
+                <div class="mb-4">
+                  <h3 class="text-2xl font-bold text-[var(--white)] mb-1">
+                    {exp.role}
+                  </h3>
+                  <div class="flex flex-wrap items-center gap-2 text-[var(--white-icon)]">
+                    <span class="font-semibold">{exp.company}</span>
+                    <span>•</span>
+                    <span class="text-sm">{exp.period}</span>
+                  </div>
+                </div>
+
+                <!-- Description -->
+                <p class="text-[var(--white-icon)] mb-4 leading-relaxed">
+                  {exp.description}
+                </p>
+
+                <!-- Technologies -->
+                <div class="flex flex-wrap gap-2">
+                  {exp.technologies.map((tech) => (
+                    <span class="px-3 py-1 text-xs font-medium text-[var(--white)] bg-[#ffffff10] rounded-full border border-[#ffffff15] hover:bg-[#ffffff15] transition-colors">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Initial animations - hidden elements */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .experience-card {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  .experience-card.animate-left .card-content {
+    transform: translateX(-50px);
+  }
+
+  .experience-card.animate-right .card-content {
+    transform: translateX(50px);
+  }
+
+  .experience-card.visible {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  .experience-card.visible .card-content {
+    animation: slideInCard 0.8s ease-out 0.2s forwards;
+  }
+
+  .experience-card.visible .company-logo {
+    animation: scaleIn 0.5s ease-out 0.3s forwards;
+  }
+
+  .experience-card.visible .timeline-dot {
+    animation: dotPulse 0.6s ease-out 0.4s forwards;
+  }
+
+  .timeline-line {
+    transform: scaleY(0);
+    transform-origin: top;
+    animation: lineGrow 1.5s ease-out 0.5s forwards;
+  }
+
+  /* Keyframes */
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInCard {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes dotPulse {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  @keyframes lineGrow {
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .experience-card {
+      padding-left: 2rem;
+    }
+  }
+</style>
+
+<script>
+  // Intersection Observer to animate when entering viewport
+  const observerOptions = {
+    threshold: 0.2,
+    rootMargin: '0px 0px -100px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        
+        // Add direction class based on index
+        const index = parseInt(entry.target.getAttribute('data-index') || '0');
+        if (index % 2 === 0) {
+          entry.target.classList.add('animate-left');
+        } else {
+          entry.target.classList.add('animate-right');
+        }
+      }
+    });
+  }, observerOptions);
+
+  // Observe all experience cards
+  document.querySelectorAll('.experience-card').forEach(card => {
+    observer.observe(card);
+  });
+</script>
