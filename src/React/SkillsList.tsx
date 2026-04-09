@@ -80,10 +80,11 @@ const SkillsList = () => {
       "Accessibility (A11Y) compliance",
     ],
     "Backend & Database": [
-      "Node.js and Express.js APIs",
+      "Node.js, Express.js and Nest.js APIs",
       "Database design (SQL and NoSQL)",
       "Firebase/Supabase integration",
       "Authentication and authorization systems",
+      "Java Spring Boot and Python Flask APIs",
     ],
     "DevOps & Best Practices": [
       "Git version control and team collaboration",
