@@ -1,298 +1,415 @@
 ---
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
+import SectionHeader from "./SectionHeader.astro";
 import sihs from "../../public/sihs.png";
 import paraguacu from "../../public/paraguacu.jpg";
-import type { ImageMetadata } from 'astro';
+import type { ImageMetadata } from "astro";
 
-const experiences = [
+interface Experience {
+  company: string;
+  companyShort: string;
+  role: string;
+  period: string;
+  type: string;
+  description: string;
+  highlights: string[];
+  technologies: string[];
+  logo: ImageMetadata | string;
+  isImage: boolean;
+}
+
+const experiences: Experience[] = [
   {
-    company: "SIHS - Secretaria de Infraestrutura Hidrica e Saneamento",
-    role: "IT Technician / Junior Developer ",
-    period: "2025 - Present",
+    company: "Secretaria de Infraestrutura Hídrica e Saneamento",
+    companyShort: "SIHS · Governo da Bahia",
+    role: "Desenvolvedor Fullstack",
+    period: "2025 — Atual",
+    type: "Tempo integral",
     description:
-      "Development of internal systems to optimize processes, automate workflows, and improve operational efficiency.",
+      "Desenvolvimento de sistemas internos que automatizam processos críticos, reduzem trabalho manual e dão visibilidade operacional para equipes de campo e gestão.",
+    highlights: [
+      "Sistema de reuniões com autenticação LDAP e painel administrativo",
+      "APIs REST integradas a PostgreSQL e fluxos de aprovação",
+      "Interfaces React com foco em usabilidade para usuários não técnicos",
+    ],
     technologies: [
       "TypeScript",
       "React",
+      "Node.js",
       "Express",
-      "TailwindCSS",
-      "LDAP",
       "PostgreSQL",
-      "Windows Server",
-      "CMD",
-      "REST APIs",
+      "LDAP",
+      "Tailwind CSS",
       "Git",
-      "CI/CD"
+      "CI/CD",
     ],
     logo: sihs as ImageMetadata,
-    isImage: true
+    isImage: true,
   },
   {
     company: "Paraguaçu Engenharia",
-    role: "Technical Support",
-    period: "2024 - 2025",
+    companyShort: "Paraguaçu Engenharia",
+    role: "Analista de Suporte Técnico",
+    period: "2024 — 2025",
+    type: "Tempo integral",
     description:
-      "Specialized technical support, infrastructure monitoring, system maintenance, and critical issue resolution.",
+      "Atuação em ambiente corporativo com foco em estabilidade de infraestrutura, resolução de incidentes e suporte a usuários em escala.",
+    highlights: [
+      "Monitoramento de servidores Windows e redes corporativas",
+      "Gestão de tickets e SLA em ambiente L1/L2",
+      "Manutenção de Active Directory, hardware e estações de trabalho",
+    ],
     technologies: [
-      "L1/L2 Support",
-      "Infrastructure",
-      "Troubleshooting",
       "Windows Server",
       "Active Directory",
-      "Hardware Maintenance",
-      "Networking",
-      "Software Installation & Configuration",
-      "System Monitoring",
+      "Redes",
       "Helpdesk",
-      "Ticketing Tools"
+      "Monitoramento",
+      "Troubleshooting",
     ],
     logo: paraguacu as ImageMetadata,
-    isImage: true
+    isImage: true,
   },
   {
-    company: "Freelancer",
-    role: "Web Developer",
-    period: "2022 - Present",
+    company: "Projetos independentes",
+    companyShort: "Freelancer",
+    role: "Desenvolvedor Fullstack",
+    period: "2022 — Atual",
+    type: "Projetos sob demanda",
     description:
-      "Development of custom websites and web applications, focusing on performance, SEO, accessibility, and user experience.",
-    technologies: [
-      "JavaScript",
-      "React",
-      "Express",
-      "PostgreSQL",
-      "Node.js",
-      "TailwindCSS",
-      "Figma",
-      "Vite",
-      "Responsive Design",
-      "API Integration",
-      "Git & GitHub",
-      "SEO Optimization",
-      "UI/UX"
+      "Entrega ponta a ponta de sites e aplicações web para clientes — do protótipo ao deploy, com performance, SEO e código maintível.",
+    highlights: [
+      "Landing pages e dashboards com React e Tailwind",
+      "Integração de pagamentos, APIs e bancos relacionais",
+      "Deploy contínuo na Vercel com pipelines enxutos",
     ],
-    logo: "🎯",
-    isImage: false
-  }
+    technologies: [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "PostgreSQL",
+      "Vite",
+      "Figma",
+      "Vercel",
+      "SEO",
+    ],
+    logo: "⚡",
+    isImage: false,
+  },
 ];
 ---
 
-<section id="experience" class="w-full py-20 px-4 relative overflow-hidden">
+<section id="experience" class="w-full py-20 md:py-28 relative overflow-hidden border-t border-[#ffffff08]">
   <div class="max-w-5xl mx-auto">
-    <!-- Section Title -->
-    <div class="text-center mb-16 fade-in">
-      <h2 class="text-4xl md:text-5xl font-bold text-[var(--white)] mb-4">
-        Experiences
-      </h2>
-      <p class="text-[var(--white-icon)] text-lg">
-        My Professional Experiences
-      </p>
-    </div>
+    <SectionHeader
+      eyebrow="Carreira"
+      title="Experiências que constroem o meu stack"
+      description="Do setor público ao freelance — sempre com entrega real, código em produção e impacto mensurável."
+      align="center"
+    />
 
-    <!-- Timeline -->
-    <div class="relative">
-      <!-- Vertical Line -->
-      <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[#ffffff20] to-transparent timeline-line"></div>
-
-      <!-- Experiences -->
-      <div class="space-y-16">
-        {experiences.map((exp, index) => (
-          <div 
-            class={`experience-card flex flex-col md:flex-row gap-8 relative ${
-              index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-            }`}
-            data-index={index}
+    <div class="experience-list space-y-6 md:space-y-8">
+      {
+        experiences.map((exp, index) => (
+          <article
+            class="reveal-on-scroll exp-card group"
+            style={`transition-delay: ${index * 0.08}s`}
           >
-            <!-- Logo/Icon -->
-            <div class="flex md:justify-center items-start md:items-center md:flex-1">
-              <div class="relative">
-                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#ffffff15] to-[#ffffff05] border border-[#ffffff20] flex items-center justify-center backdrop-blur-sm company-logo z-10 relative overflow-hidden">
+            <div class="exp-card-glow" aria-hidden="true"></div>
+
+            <div class="exp-card-inner">
+              <header class="exp-card-header">
+                <div class="exp-logo-wrap">
                   {exp.isImage ? (
-                    <Image 
-                      src={exp.logo as ImageMetadata} 
+                    <Image
+                      src={exp.logo as ImageMetadata}
                       alt={exp.company}
-                      class="w-full h-full object-cover"
-                      width={500}
-                      height={500}
+                      class="exp-logo-img"
+                      width={80}
+                      height={80}
                     />
                   ) : (
-                    <span class="text-3xl">{exp.logo}</span>
+                    <span class="exp-logo-emoji">{exp.logo}</span>
                   )}
                 </div>
-                <!-- Timeline Dot -->
-                <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[var(--white)] opacity-0 timeline-dot"></div>
-              </div>
-            </div>
 
-            <!-- Content -->
-            <div class="md:flex-1">
-              <div class="bg-gradient-to-br from-[#ffffff08] to-[#ffffff03] rounded-xl p-6 border border-[#ffffff10] backdrop-blur-sm hover:border-[#ffffff30] transition-all duration-300 card-content">
-                <!-- Header -->
-                <div class="mb-4">
-                  <h3 class="text-2xl font-bold text-[var(--white)] mb-1">
-                    {exp.role}
-                  </h3>
-                  <div class="flex flex-wrap items-center gap-2 text-[var(--white-icon)]">
-                    <span class="font-semibold">{exp.company}</span>
-                    <span>•</span>
-                    <span class="text-sm">{exp.period}</span>
+                <div class="exp-header-text">
+                  <div class="exp-meta-row">
+                    <span class="exp-role-badge">{exp.role}</span>
+                    <span class="exp-type-chip">{exp.type}</span>
                   </div>
+                  <h3 class="exp-company">{exp.companyShort}</h3>
+                  <p class="exp-company-full">{exp.company}</p>
+                  <time class="exp-period" datetime={exp.period.replace(" — ", "/")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="exp-period-icon" aria-hidden="true">
+                      <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM13 12H17V14H11V7H13V12Z"/>
+                    </svg>
+                    {exp.period}
+                  </time>
                 </div>
+              </header>
 
-                <!-- Description -->
-                <p class="text-[var(--white-icon)] mb-4 leading-relaxed">
-                  {exp.description}
-                </p>
+              <p class="exp-description">{exp.description}</p>
 
-                <!-- Technologies -->
-                <div class="flex flex-wrap gap-2">
-                  {exp.technologies.map((tech) => (
-                    <span class="px-3 py-1 text-xs font-medium text-[var(--white)] bg-[#ffffff10] rounded-full border border-[#ffffff15] hover:bg-[#ffffff15] transition-colors">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+              <ul class="exp-highlights">
+                {exp.highlights.map((item) => (
+                  <li>
+                    <span class="exp-highlight-dot" aria-hidden="true"></span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <div class="exp-tech">
+                {exp.technologies.map((tech) => (
+                  <span class="exp-tech-tag">{tech}</span>
+                ))}
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
 
 <style>
-  /* Initial animations - hidden elements */
-  .fade-in {
+  .experience-list {
+    position: relative;
+  }
+
+  .exp-card {
+    position: relative;
+    border-radius: 1.25rem;
+  }
+
+  .exp-card-glow {
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--sec) 40%, transparent),
+      transparent 45%,
+      color-mix(in srgb, var(--sec) 15%, transparent)
+    );
     opacity: 0;
-    transform: translateY(20px);
-    animation: fadeIn 0.8s ease-out forwards;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
   }
 
-  .experience-card {
-    opacity: 0;
-    transform: translateY(50px);
+  .exp-card:hover .exp-card-glow,
+  .exp-card:focus-within .exp-card-glow {
+    opacity: 1;
   }
 
-  .experience-card.animate-left .card-content {
-    transform: translateX(-50px);
+  .exp-card-inner {
+    position: relative;
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    background: linear-gradient(145deg, #ffffff0c 0%, #ffffff03 55%, #ffffff01 100%);
+    border: 1px solid #ffffff12;
+    backdrop-filter: blur(12px);
+    transition:
+      border-color 0.35s ease,
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease;
   }
 
-  .experience-card.animate-right .card-content {
-    transform: translateX(50px);
-  }
-
-  .experience-card.visible {
-    animation: slideUp 0.6s ease-out forwards;
-  }
-
-  .experience-card.visible .card-content {
-    animation: slideInCard 0.8s ease-out 0.2s forwards;
-  }
-
-  .experience-card.visible .company-logo {
-    animation: scaleIn 0.5s ease-out 0.3s forwards;
-  }
-
-  .experience-card.visible .timeline-dot {
-    animation: dotPulse 0.6s ease-out 0.4s forwards;
-  }
-
-  .timeline-line {
-    transform: scaleY(0);
-    transform-origin: top;
-    animation: lineGrow 1.5s ease-out 0.5s forwards;
-  }
-
-  /* Keyframes */
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  @media (min-width: 768px) {
+    .exp-card-inner {
+      padding: 2rem 2.25rem;
     }
   }
 
-  @keyframes slideUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  .exp-card:hover .exp-card-inner {
+    border-color: color-mix(in srgb, var(--sec) 35%, transparent);
+    transform: translateY(-4px);
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.35),
+      0 0 0 1px color-mix(in srgb, var(--sec) 12%, transparent);
+  }
+
+  .exp-card-header {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+  }
+
+  .exp-logo-wrap {
+    flex-shrink: 0;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #ffffff18;
+    background: linear-gradient(145deg, #ffffff12, #ffffff04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transition: transform 0.35s ease;
+  }
+
+  .exp-card:hover .exp-logo-wrap {
+    transform: scale(1.05);
+  }
+
+  .exp-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .exp-logo-emoji {
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+
+  .exp-header-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .exp-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-role-badge {
+    display: inline-flex;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--background);
+    background: linear-gradient(135deg, var(--sec), #c9a8ff);
+    border-radius: 9999px;
+    box-shadow: 0 2px 12px var(--glow);
+  }
+
+  .exp-type-chip {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--white-icon);
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    border: 1px solid #ffffff14;
+    background: #ffffff06;
+  }
+
+  .exp-company {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 0.2rem;
+  }
+
+  @media (min-width: 768px) {
+    .exp-company {
+      font-size: 1.5rem;
     }
   }
 
-  @keyframes slideInCard {
-    to {
-      opacity: 1;
-      transform: translateX(0);
+  .exp-company-full {
+    font-size: 0.8rem;
+    color: var(--white-icon);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-period {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--sec);
+  }
+
+  .exp-period-icon {
+    width: 1rem;
+    height: 1rem;
+    opacity: 0.9;
+  }
+
+  .exp-description {
+    color: var(--white-icon);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .exp-description {
+      font-size: 1rem;
     }
   }
 
-  @keyframes scaleIn {
-    0% {
-      transform: scale(0);
-      opacity: 0;
-    }
-    50% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
+  .exp-highlights {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.1rem;
+    border-radius: 0.875rem;
+    background: #ffffff05;
+    border: 1px solid #ffffff08;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
   }
 
-  @keyframes dotPulse {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0);
-    }
-    50% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.5);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
+  .exp-highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 0.875rem;
+    color: var(--white);
+    line-height: 1.5;
   }
 
-  @keyframes lineGrow {
-    to {
-      transform: scaleY(1);
-    }
+  .exp-highlight-dot {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    margin-top: 0.45rem;
+    border-radius: 50%;
+    background: var(--sec);
+    box-shadow: 0 0 8px var(--glow);
   }
 
-  /* Responsive */
-  @media (max-width: 768px) {
-    .experience-card {
-      padding-left: 2rem;
-    }
+  .exp-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .exp-tech-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.35rem 0.75rem;
+    color: var(--white-icon);
+    background: #ffffff08;
+    border: 1px solid #ffffff10;
+    border-radius: 0.5rem;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .exp-card:hover .exp-tech-tag {
+    border-color: color-mix(in srgb, var(--sec) 25%, transparent);
+  }
+
+  .exp-tech-tag:hover {
+    color: var(--white);
+    background: color-mix(in srgb, var(--sec) 12%, transparent);
+    border-color: color-mix(in srgb, var(--sec) 35%, transparent);
   }
 </style>
-
-<script>
-  // Intersection Observer to animate when entering viewport
-  const observerOptions = {
-    threshold: 0.2,
-    rootMargin: '0px 0px -100px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        
-        // Add direction class based on index
-        const index = parseInt(entry.target.getAttribute('data-index') || '0');
-        if (index % 2 === 0) {
-          entry.target.classList.add('animate-left');
-        } else {
-          entry.target.classList.add('animate-right');
-        }
-      }
-    });
-  }, observerOptions);
-
-  // Observe all experience cards
-  document.querySelectorAll('.experience-card').forEach(card => {
-    observer.observe(card);
-  });
-</script>

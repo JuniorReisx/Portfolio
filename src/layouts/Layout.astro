@@ -1,50 +1,72 @@
 ---
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = "Junior Reis — Fullstack Developer building scalable APIs, Spring Boot backends, and pixel-perfect React interfaces. Based in Salvador, Brazil. Open to opportunities.",
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Software Developer" />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Junior Reis" />
+    <meta name="theme-color" content="#101010" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta property="og:title" content="Junior Reis" />
-    <meta property="og:description" content="Software Developer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Junior Reis Portfolio" />
-
+    <meta name="twitter:card" content="summary_large_image" />
     <title>{title}</title>
   </head>
-  <body class="bg-[--background] sm:px-28 lg:px-20 px-9">
+  <body class="bg-[var(--background)] text-[var(--white)] antialiased">
+    <a href="#home" class="skip-link">Skip to content</a>
+    <div id="scroll-progress" aria-hidden="true"></div>
     <slot />
   </body>
 </html>
 
 <style is:global>
-  @import url('https://fonts.cdnfonts.com/css/montserrat');
-
   :root {
-    --background: #101010;
+    --background: #0a0a0c;
+    --background-elevated: #121218;
     --sec: #a476ff;
-    --white: #dfdfdf;
-    --white-icon: #f3f3f398;
-    --white-icon-tr: #f3f3f310;
+    --sec-dim: #5e4491;
+    --white: #f0f0f2;
+    --white-icon: #a8a8b3;
+    --white-icon-tr: #ffffff12;
+    --component-bg: #14141aee;
+    --container: #1a1a22;
+    --line: #2a2a35;
+    --glow: rgba(164, 118, 255, 0.25);
   }
 
   * {
-    font-family:
-      "Montserrat",
-      -apple-system,
-      system-ui,
-      sans-serif;
+    font-family: "DM Sans", -apple-system, system-ui, sans-serif;
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Syne", sans-serif;
+    letter-spacing: -0.02em;
   }
 
   *::selection {
@@ -52,29 +74,197 @@ const { title } = Astro.props;
     color: var(--background);
   }
 
-  /* Scrollbar styles */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    position: relative;
+    min-height: 100vh;
+    padding-left: clamp(1rem, 4vw, 5rem);
+    padding-right: clamp(1rem, 4vw, 5rem);
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    z-index: 200;
+    padding: 0.75rem 1.25rem;
+    background: var(--sec);
+    color: var(--background);
+    font-weight: 600;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: top 0.2s;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--sec-dim), var(--sec), #eee5ff);
+    z-index: 9999;
+    box-shadow: 0 0 12px var(--glow);
+    transition: width 0.1s linear;
+  }
+
+  .shiny-sec {
+    background: linear-gradient(135deg, #a476ff 25%, #eee5ff 50%, #a476ff 75%);
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 3s linear infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: 100% 50%;
+    }
+    30%,
+    70% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .glass-card {
+    background: linear-gradient(135deg, #ffffff0a 0%, #ffffff03 100%);
+    border: 1px solid #ffffff10;
+    backdrop-filter: blur(12px);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--background);
+    background: linear-gradient(135deg, var(--sec) 0%, #c9a8ff 100%);
+    border-radius: 9999px;
+    border: none;
+    text-decoration: none;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+    box-shadow: 0 4px 24px var(--glow);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--glow);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--white);
+    background: #ffffff08;
+    border: 1px solid #ffffff18;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition:
+      background 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .btn-secondary:hover {
+    background: #ffffff12;
+    border-color: var(--sec);
+    transform: translateY(-2px);
+  }
 
   ::-webkit-scrollbar {
-    width: 15px;
+    width: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--container);
-    border-radius: 30px;
+    background: var(--background);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--background);
+    background: var(--line);
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--pink);
+    background: var(--sec-dim);
   }
 
-  /* Scrollbar styles for Firefox */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--line) var(--container);
+    scrollbar-color: var(--line) var(--background);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .reveal-on-scroll {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .shiny-sec,
+    .hero-item {
+      animation: none !important;
+    }
   }
 </style>
+
+<script>
+  const progress = document.getElementById("scroll-progress");
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progress?.style.setProperty("width", `${pct}%`);
+  }
+
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  updateProgress();
+
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+  );
+
+  document.querySelectorAll(".reveal-on-scroll").forEach((el) => {
+    revealObserver.observe(el);
+  });
+</script>

@@ -1,0 +1,66 @@
+---
+const stats = [
+  { value: 3, suffix: "+", label: "Years building software" },
+  { value: 15, suffix: "+", label: "Projects shipped" },
+  { value: 25, suffix: "+", label: "Technologies in stack" },
+  { value: 2, suffix: "", label: "Active roles (gov + freelance)" },
+];
+---
+
+<section class="py-16 border-y border-[#ffffff08]" aria-label="Career highlights">
+  <div class="max-w-5xl mx-auto">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      {
+        stats.map((stat, i) => (
+          <div
+            class="reveal-on-scroll stat-card group relative overflow-hidden rounded-2xl border border-[#ffffff10] bg-gradient-to-br from-[#ffffff08] to-[#ffffff02] p-6 md:p-8 backdrop-blur-sm hover:border-[var(--sec)]/30 transition-all duration-500"
+            style={`--delay: ${i * 0.08}s`}
+          >
+            <div class="absolute -top-8 -right-8 w-24 h-24 bg-[var(--sec)]/10 rounded-full blur-2xl group-hover:bg-[var(--sec)]/20 transition-colors"></div>
+            <p class="text-4xl md:text-5xl font-bold text-[var(--white)] tabular-nums">
+              <span class="stat-number" data-target={stat.value}>0</span>
+              <span class="text-[var(--sec)] shiny-sec">{stat.suffix}</span>
+            </p>
+            <p class="mt-2 text-sm md:text-base text-[var(--white-icon)] leading-snug">
+              {stat.label}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  function animateCounters() {
+    document.querySelectorAll(".stat-number").forEach((el) => {
+      const target = parseInt(el.getAttribute("data-target") || "0", 10);
+      const duration = 1200;
+      const start = performance.now();
+
+      function tick(now: number) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    });
+  }
+
+  const statsObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          statsObserver.disconnect();
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  const statsSection = document.querySelector("section[aria-label='Career highlights']");
+  if (statsSection) statsObserver.observe(statsSection);
+</script>

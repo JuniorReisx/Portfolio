@@ -1,0 +1,24 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  align?: "left" | "center";
+}
+
+const { eyebrow, title, description, align = "left" } = Astro.props;
+const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
+---
+
+<div class={`reveal-on-scroll mb-12 md:mb-16 max-w-2xl ${alignClass}`}>
+  <p class="text-sm md:text-base text-[var(--sec)] font-semibold tracking-widest uppercase mb-3 shiny-sec">
+    {eyebrow}
+  </p>
+  <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--white)] leading-tight">
+    {title}
+  </h2>
+  {description && (
+    <p class="mt-4 text-[var(--white-icon)] text-lg leading-relaxed">{description}</p>
+  )}
+  <div class={`mt-6 h-1 w-24 bg-gradient-to-r from-[var(--sec)] to-transparent rounded-full ${align === "center" ? "mx-auto" : ""}`}></div>
+</div>
