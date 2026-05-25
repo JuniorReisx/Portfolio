@@ -101,7 +101,7 @@ const SkillsList = () => {
 
   return (
     <div className="text-left pt-3 md:pt-9">
-      {/* Header com gradiente */}
+      {/* Header with gradient */}
       <div className="mb-8">
         <h3 className="text-[var(--white)] text-3xl md:text-4xl font-bold mb-2 relative inline-block">
           What I do?
@@ -131,29 +131,29 @@ const SkillsList = () => {
                     : "bg-[#1414149c] border border-[var(--white-icon-tr)] hover:border-[var(--sec)]/30 hover:bg-[#1a1a1a]"
                 }`}
               >
-                {/* Brilho de fundo ao hover */}
+                {/* Background glow on hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[var(--sec)]/0 via-[var(--sec)]/5 to-[var(--sec)]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                {/* Header do card */}
+                {/* Card header */}
                 <div className="relative flex items-center gap-3 md:gap-4 p-4 md:p-5">
-                  {/* Ícone com background */}
+                  {/* Icon with background */}
                   <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--sec)]/10 flex items-center justify-center group-hover:bg-[var(--sec)]/20 transition-colors">
                     {CategoryIcons[category]}
                   </div>
 
-                  {/* Texto e seta */}
+                  {/* Label and arrow */}
                   <div className="flex items-center gap-2 md:gap-3 flex-grow justify-between min-w-0">
                     <span className="block text-[var(--white)] text-base md:text-lg font-semibold group-hover:text-[var(--sec)] transition-colors truncate pr-2">
                       {category}
                     </span>
 
-                    {/* Badge com contador */}
+                    {/* Count badge */}
                     <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
                       <span className="px-2 md:px-2.5 py-0.5 md:py-1 bg-[var(--sec)]/20 text-[var(--sec)] text-xs font-bold rounded-full">
                         {items.length}
                       </span>
 
-                      {/* Seta animada */}
+                      {/* Animated arrow */}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -168,7 +168,7 @@ const SkillsList = () => {
                   </div>
                 </div>
 
-                {/* Conteúdo expansível */}
+                {/* Expandable content */}
                 <div
                   className={`transition-all duration-500 ease-in-out ${
                     isOpen
@@ -177,10 +177,10 @@ const SkillsList = () => {
                   }`}
                 >
                   <div className="px-4 md:px-5 pb-4 md:pb-5 pt-2">
-                    {/* Linha divisória */}
+                    {/* Divider line */}
                     <div className="h-px bg-gradient-to-r from-transparent via-[var(--sec)]/30 to-transparent mb-3 md:mb-4"></div>
 
-                    {/* Lista de items */}
+                    {/* Item list */}
                     <ul className="space-y-2 md:space-y-3">
                       {items.map((item, itemIndex) => (
                         <li
@@ -192,7 +192,7 @@ const SkillsList = () => {
                               : "none",
                           }}
                         >
-                          {/* Bullet point customizado */}
+                          {/* Custom bullet */}
                           <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[var(--sec)] mt-1.5 md:mt-2 group-hover/item:scale-150 transition-transform"></span>
                           <span className="leading-relaxed">{item}</span>
                         </li>
@@ -206,7 +206,7 @@ const SkillsList = () => {
         })}
       </ul>
 
-      {/* Animações CSS */}
+      {/* CSS animations */}
       <style>{`
         @keyframes fadeInUp {
           from {
