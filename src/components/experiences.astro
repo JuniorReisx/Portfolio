@@ -11,8 +11,9 @@ interface Experience {
   role: string;
   period: string;
   type: string;
+  focus?: string;
   description: string;
-  highlights: string[];
+  highlights: { k: string; v: string }[];
   technologies: string[];
   logo: ImageMetadata | string;
   isImage: boolean;
@@ -20,28 +21,44 @@ interface Experience {
 
 const experiences: Experience[] = [
   {
-    company: "Secretariat of Water Infrastructure and Sanitation",
-    companyShort: "SIHS · Government of Bahia",
-    role: "Fullstack Developer",
+    company: "Secretariat of Water Infrastructure and Sanitation · Government of Bahia",
+    companyShort: "SIHS · Bahia, Brazil",
+    role: "Software Engineer, GIS",
     period: "2025 — Present",
     type: "Full-time",
+    focus: "Primary focus: ArcGIS Enterprise at SIHS — web maps, dashboards, Experience Builder, and GIS applications in production.",
     description:
-      "Building internal systems that automate critical processes, reduce manual work, and give field and management teams operational visibility.",
+      "I build the software that puts water infrastructure on a map and into daily operations. At SIHS I work on ArcGIS Enterprise: I publish web maps, build ArcGIS Dashboards, and ship Experience Builder applications so water and sanitation teams can run the network from the browser. GIS is the core. The rest of the job is engineering — APIs, auth, and internal products used by people who never open a GIS desktop.",
     highlights: [
-      "Meeting system with LDAP authentication and admin panel",
-      "REST APIs integrated with PostgreSQL and approval workflows",
-      "React interfaces focused on usability for non-technical users",
+      {
+        k: "ArcGIS",
+        v: "ArcGIS Enterprise as the production GIS stack — web maps, Dashboards, Experience Builder, and GIS applications for hydraulic planning and water/sanitation networks.",
+      },
+      {
+        k: "Apps",
+        v: "Operational apps on that stack: interactive web maps, monitoring dashboards, and Experience Builder experiences for field and office staff.",
+      },
+      {
+        k: "Data",
+        v: "PostGIS / PostgreSQL as the source of truth; REST APIs so ArcGIS apps, maps, and ops tools consume the same spatial + operational data.",
+      },
+      {
+        k: "Software",
+        v: "Internal products beyond the map: systems portal and meeting-room booking with LDAP on government infrastructure.",
+      },
     ],
     technologies: [
+      "ArcGIS Enterprise",
+      "ArcGIS Dashboards",
+      "Experience Builder",
+      "Web Maps",
+      "MapLibre GL",
+      "PostGIS",
+      "QGIS",
       "TypeScript",
       "React",
-      "Node.js",
-      "Express",
       "PostgreSQL",
       "LDAP",
-      "Tailwind CSS",
-      "Git",
-      "CI/CD",
     ],
     logo: sihs as ImageMetadata,
     isImage: true,
@@ -53,11 +70,11 @@ const experiences: Experience[] = [
     period: "2024 — 2025",
     type: "Full-time",
     description:
-      "Corporate environment focused on infrastructure stability, incident resolution, and user support at scale.",
+      "Corporate infrastructure: keep servers, networks, and people unblocked so engineering work can ship.",
     highlights: [
-      "Monitoring of Windows servers and corporate networks",
-      "Ticket and SLA management in L1/L2 support",
-      "Active Directory, hardware, and workstation maintenance",
+      { k: "Infra", v: "Windows Server and corporate network monitoring in a live operations environment." },
+      { k: "Ops", v: "L1/L2 tickets and SLAs — incident triage, not just hardware swaps." },
+      { k: "IAM", v: "Active Directory, workstations, and the access layer the rest of the company sits on." },
     ],
     technologies: [
       "Windows Server",
@@ -72,16 +89,16 @@ const experiences: Experience[] = [
   },
   {
     company: "Independent projects",
-    companyShort: "Freelancer",
-    role: "Fullstack Developer",
+    companyShort: "Independent",
+    role: "Software Developer",
     period: "2022 — Present",
     type: "Project-based",
     description:
-      "End-to-end delivery of websites and web apps for clients — from prototype to deploy, with performance, SEO, and maintainable code.",
+      "End-to-end web products for clients — prototype to production, with the same delivery bar as the GIS work: ship it, don’t just demo it.",
     highlights: [
-      "Landing pages and dashboards with React and Tailwind",
-      "Payment, API, and relational database integrations",
-      "Continuous deployment on Vercel with lean pipelines",
+      { k: "Web", v: "Landing pages and dashboards in React / TypeScript, designed to convert and to last." },
+      { k: "Integrate", v: "Payments, APIs, and relational databases wired into real user flows." },
+      { k: "Ship", v: "CI-friendly deploys on Vercel — lean pipelines, SEO, maintainable code." },
     ],
     technologies: [
       "React",
@@ -102,9 +119,10 @@ const experiences: Experience[] = [
 <section id="experience" class="w-full py-20 md:py-28 relative overflow-hidden border-t border-[#ffffff08]">
   <div class="max-w-5xl mx-auto">
     <SectionHeader
-      eyebrow="Career"
-      title="Experience that shapes my stack"
-      description="From public sector to freelance — always shipping real work, production code, and measurable impact."
+      index="03"
+      eyebrow="Experience"
+      title="GIS is the focus. Software is how it ships."
+      description="ArcGIS Enterprise at SIHS in Bahia — web maps, dashboards, Experience Builder — and the engineering around it: APIs, auth, and products people use without speaking GIS."
       align="center"
     />
 
@@ -112,7 +130,7 @@ const experiences: Experience[] = [
       {
         experiences.map((exp, index) => (
           <article
-            class="reveal-on-scroll exp-card group"
+            class="reveal-on-scroll exp-card group" data-spotlight
             style={`transition-delay: ${index * 0.08}s`}
           >
             <div class="exp-card-glow" aria-hidden="true"></div>
@@ -140,6 +158,7 @@ const experiences: Experience[] = [
                   </div>
                   <h3 class="exp-company">{exp.companyShort}</h3>
                   <p class="exp-company-full">{exp.company}</p>
+                  {exp.focus && <p class="exp-focus">{exp.focus}</p>}
                   <time class="exp-period" datetime={exp.period.replace(" — ", "/")}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="exp-period-icon" aria-hidden="true">
                       <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM13 12H17V14H11V7H13V12Z"/>
@@ -154,8 +173,8 @@ const experiences: Experience[] = [
               <ul class="exp-highlights">
                 {exp.highlights.map((item) => (
                   <li>
-                    <span class="exp-highlight-dot" aria-hidden="true"></span>
-                    {item}
+                    <span class="exp-highlight-k">{item.k}</span>
+                    <span>{item.v}</span>
                   </li>
                 ))}
               </ul>
@@ -180,7 +199,7 @@ const experiences: Experience[] = [
 
   .exp-card {
     position: relative;
-    border-radius: 1.25rem;
+    border-radius: 0;
   }
 
   .exp-card-glow {
@@ -206,7 +225,7 @@ const experiences: Experience[] = [
   .exp-card-inner {
     position: relative;
     padding: 1.5rem;
-    border-radius: 1.25rem;
+    border-radius: 0;
     background: linear-gradient(145deg, #ffffff0c 0%, #ffffff03 55%, #ffffff01 100%);
     border: 1px solid #ffffff12;
     backdrop-filter: blur(12px);
@@ -289,7 +308,7 @@ const experiences: Experience[] = [
     text-transform: uppercase;
     color: var(--background);
     background: linear-gradient(135deg, var(--sec), #c9a8ff);
-    border-radius: 9999px;
+    border-radius: 0;
     box-shadow: 0 2px 12px var(--glow);
   }
 
@@ -298,7 +317,7 @@ const experiences: Experience[] = [
     font-weight: 500;
     color: var(--white-icon);
     padding: 0.25rem 0.6rem;
-    border-radius: 9999px;
+    border-radius: 0;
     border: 1px solid #ffffff14;
     background: #ffffff06;
   }
@@ -321,7 +340,17 @@ const experiences: Experience[] = [
     font-size: 0.8rem;
     color: var(--white-icon);
     line-height: 1.4;
+    margin-bottom: 0.35rem;
+  }
+
+  .exp-focus {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--accent-gold);
+    line-height: 1.5;
     margin-bottom: 0.5rem;
+    max-width: 42rem;
   }
 
   .exp-period {
@@ -355,32 +384,43 @@ const experiences: Experience[] = [
   .exp-highlights {
     list-style: none;
     margin: 0 0 1.5rem;
-    padding: 1rem 1.1rem;
-    border-radius: 0.875rem;
-    background: #ffffff05;
-    border: 1px solid #ffffff08;
+    padding: 0;
+    border: 1px solid var(--border-subtle);
+    background: color-mix(in srgb, var(--bg-void) 55%, transparent);
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
   }
 
   .exp-highlights li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.65rem;
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: start;
     font-size: 0.875rem;
-    color: var(--white);
-    line-height: 1.5;
+    color: var(--text-primary);
+    line-height: 1.55;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border-subtle);
   }
 
-  .exp-highlight-dot {
-    flex-shrink: 0;
-    width: 6px;
-    height: 6px;
-    margin-top: 0.45rem;
-    border-radius: 50%;
-    background: var(--sec);
-    box-shadow: 0 0 8px var(--glow);
+  .exp-highlights li:last-child {
+    border-bottom: none;
+  }
+
+  .exp-highlight-k {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    padding-top: 0.15rem;
+  }
+
+  @media (max-width: 639px) {
+    .exp-highlights li {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
   }
 
   .exp-tech {
@@ -396,7 +436,7 @@ const experiences: Experience[] = [
     color: var(--white-icon);
     background: #ffffff08;
     border: 1px solid #ffffff10;
-    border-radius: 0.5rem;
+    border-radius: 0;
     transition:
       color 0.2s ease,
       border-color 0.2s ease,

@@ -1,0 +1,167 @@
+---
+const orbit = [
+  { src: "/svg/arcgis.svg", label: "ArcGIS" },
+  { src: "/svg/maplibre.svg", label: "MapLibre" },
+  { src: "/svg/react.svg", label: "React" },
+  { src: "/svg/qgis.svg", label: "QGIS" },
+  { src: "/svg/postgis.svg", label: "PostGIS" },
+  { src: "/svg/typeScript.svg", label: "TypeScript" },
+  { src: "/svg/nodejs.svg", label: "Node.js" },
+];
+---
+
+<div class="profile-orbit" data-hero-visual>
+  <div class="profile-orbit-halo" aria-hidden="true"></div>
+  <div class="profile-orbit-ring" aria-hidden="true"></div>
+
+  <div class="profile-orbit-spin">
+    {
+      orbit.map((item, i) => (
+        <div class="profile-orbit-item" style={`--i: ${i}; --n: ${orbit.length}`}>
+          <span class="profile-orbit-chip">
+            <img src={item.src} alt="" width="28" height="28" />
+          </span>
+          <span class="sr-only">{item.label}</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="profile-orbit-core">
+    <img
+      src="/portrait.png"
+      alt="Junior Reis, software engineer specializing in GIS"
+      width="400"
+      height="400"
+    />
+  </div>
+</div>
+
+<p class="profile-orbit-meta type-label">
+  Salvador · Bahia · 12.9714°S 38.5014°W
+</p>
+
+<style>
+  .profile-orbit {
+    position: relative;
+    width: min(100%, 22rem);
+    aspect-ratio: 1;
+    margin-inline: auto;
+  }
+
+  .profile-orbit-halo {
+    position: absolute;
+    inset: 12%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(62, 207, 200, 0.18), transparent 68%);
+    filter: blur(12px);
+  }
+
+  .profile-orbit-ring {
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    border: 1.5px dashed color-mix(in srgb, var(--accent-primary) 45%, var(--border-subtle));
+    animation: orbit-pulse 6s ease-in-out infinite;
+  }
+
+  .profile-orbit-spin {
+    position: absolute;
+    inset: 0;
+    animation: orbit-spin 42s linear infinite;
+  }
+
+  .profile-orbit-item {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: -1.375rem;
+    transform: rotate(calc(360deg / var(--n) * var(--i))) translate(min(38vw, 9.4rem));
+    z-index: 2;
+  }
+
+  .profile-orbit-chip {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--accent-primary) 28%, var(--border-subtle));
+    background: color-mix(in srgb, var(--bg-void) 88%, transparent);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    transform: rotate(calc(-360deg / var(--n) * var(--i)));
+    animation: orbit-unspin 42s linear infinite;
+    transition: border-color 0.35s ease;
+  }
+
+  .profile-orbit-chip img {
+    width: 1.35rem;
+    height: 1.35rem;
+    object-fit: contain;
+  }
+
+  .profile-orbit:hover .profile-orbit-chip {
+    border-color: var(--accent-gold);
+  }
+
+  .profile-orbit-core {
+    position: absolute;
+    inset: 22%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid color-mix(in srgb, var(--accent-gold) 55%, var(--border-subtle));
+    z-index: 1;
+    box-shadow:
+      0 0 0 8px color-mix(in srgb, var(--bg-void) 80%, transparent),
+      0 20px 50px rgba(0, 0, 0, 0.45);
+  }
+
+  .profile-orbit-core img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 55% 18%;
+    filter: saturate(0.92) contrast(1.05);
+  }
+
+  .profile-orbit-meta {
+    text-align: center;
+    margin-top: 1.25rem;
+    color: var(--accent-primary);
+  }
+
+  @keyframes orbit-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes orbit-unspin {
+    from {
+      transform: rotate(calc(-360deg / var(--n) * var(--i)));
+    }
+    to {
+      transform: rotate(calc(-360deg / var(--n) * var(--i) - 360deg));
+    }
+  }
+
+  @keyframes orbit-pulse {
+    0%,
+    100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .profile-orbit-spin,
+    .profile-orbit-chip,
+    .profile-orbit-ring {
+      animation: none;
+    }
+  }
+</style>

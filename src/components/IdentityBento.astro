@@ -1,0 +1,100 @@
+---
+const tiles = [
+  { k: "Coordinates", v: "12.9714°S · 38.5014°W", s: "Salvador, Bahia" },
+  { k: "Theatre", v: "Brasil · South America", s: "Atlantic seaboard" },
+  { k: "Domain", v: "GIS software", s: "Maps in production" },
+  { k: "Sector", v: "Water infrastructure", s: "SIHS · Government of Bahia" },
+];
+---
+
+<section class="py-6 md:py-10" aria-label="Identity">
+  <div class="max-w-5xl mx-auto">
+    <div class="identity-bento reveal-on-scroll">
+      {
+        tiles.map((tile) => (
+          <article class="identity-tile" data-spotlight>
+            <p class="type-label">{tile.k}</p>
+            <p class="identity-tile-value">{tile.v}</p>
+            <p class="identity-tile-sub">{tile.s}</p>
+          </article>
+        ))
+      }
+      <article class="identity-tile identity-tile--live" data-spotlight>
+        <p class="type-label">Local time</p>
+        <p class="identity-tile-value tabular-nums" id="bahia-clock">UTC−3</p>
+        <p class="identity-tile-sub">America/Bahia · open to worldwide remote</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .identity-bento {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .identity-bento {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .identity-bento {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .identity-tile {
+    padding: 1.15rem 1.2rem;
+    border: 1px solid var(--border-subtle);
+    background:
+      linear-gradient(180deg, rgba(62, 207, 200, 0.04), transparent 42%),
+      color-mix(in srgb, var(--bg-secondary) 88%, transparent);
+    min-height: 7.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.25rem;
+  }
+
+  .identity-tile-value {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    line-height: 1.25;
+  }
+
+  .identity-tile-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .identity-tile--live .identity-tile-value {
+    color: var(--accent-primary);
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+  }
+</style>
+
+<script>
+  const el = document.getElementById("bahia-clock");
+  if (el) {
+    const tick = () => {
+      el.textContent = new Date().toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "America/Bahia",
+        hour12: false,
+      }) + " BRT";
+    };
+    tick();
+    setInterval(tick, 30_000);
+  }
+</script>

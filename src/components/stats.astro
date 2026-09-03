@@ -1,9 +1,9 @@
 ---
 const stats = [
-  { value: 3, suffix: "+", label: "Years building software" },
-  { value: 15, suffix: "+", label: "Projects shipped" },
-  { value: 25, suffix: "+", label: "Technologies in stack" },
-  { value: 2, suffix: "", label: "Active roles (gov + freelance)" },
+  { value: 3, suffix: "+", label: "Years shipping software" },
+  { value: 15, suffix: "+", label: "Projects delivered" },
+  { value: 25, suffix: "+", label: "GIS & engineering tools" },
+  { value: 2, suffix: "", label: "Gov + independent work" },
 ];
 ---
 
@@ -13,7 +13,7 @@ const stats = [
       {
         stats.map((stat, i) => (
           <div
-            class="reveal-on-scroll stat-card group relative overflow-hidden rounded-2xl border border-[#ffffff10] bg-gradient-to-br from-[#ffffff08] to-[#ffffff02] p-6 md:p-8 backdrop-blur-sm hover:border-[var(--sec)]/30 transition-all duration-500"
+            class="reveal-on-scroll premium-surface relative overflow-hidden p-6 md:p-8" data-spotlight
             style={`--delay: ${i * 0.08}s`}
           >
             <div class="absolute -top-8 -right-8 w-24 h-24 bg-[var(--sec)]/10 rounded-full blur-2xl group-hover:bg-[var(--sec)]/20 transition-colors"></div>

@@ -1,0 +1,82 @@
+<div id="pc" class="pc" data-mode="default" aria-hidden="true">
+  <div class="pc__glow" data-pc-glow></div>
+  <div class="pc__ring" data-pc-ring></div>
+  <div class="pc__dot" data-pc-dot></div>
+  <div class="pc__label" data-pc-label hidden>
+    <span data-pc-label-text></span>
+    <span class="pc__label-arrow" data-pc-label-arrow hidden>↗</span>
+  </div>
+</div>
+
+<script>
+  const root = document.getElementById("pc");
+  if (
+    root &&
+    window.matchMedia("(pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    const dot = root.querySelector<HTMLElement>("[data-pc-dot]");
+    const ring = root.querySelector<HTMLElement>("[data-pc-ring]");
+    const glow = root.querySelector<HTMLElement>("[data-pc-glow]");
+    const label = root.querySelector<HTMLElement>("[data-pc-label]");
+    const labelText = root.querySelector<HTMLElement>("[data-pc-label-text]");
+    const labelArrow = root.querySelector<HTMLElement>("[data-pc-label-arrow]");
+    if (dot && ring && glow && label && labelText && labelArrow) {
+      let mx = -200;
+      let my = -200;
+      let fx = mx;
+      let fy = my;
+      let visible = false;
+
+      const place = (el: HTMLElement, x: number, y: number, scale = 1) => {
+        el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${scale})`;
+      };
+
+      const resolve = (el: Element | null) => {
+        const hit = el?.closest<HTMLElement>("a, button, [data-cursor]");
+        if (!hit) {
+          return { mode: "default", label: "", arrow: false, scale: 1 };
+        }
+        const mode = hit.dataset.cursor || (hit.tagName === "A" ? "link" : "button");
+        return {
+          mode,
+          label: hit.dataset.cursorLabel || "",
+          arrow: hit.dataset.cursorArrow === "true" || hit.getAttribute("target") === "_blank",
+          scale: 1.35,
+        };
+      };
+
+      window.addEventListener(
+        "mousemove",
+        (e) => {
+          mx = e.clientX;
+          my = e.clientY;
+          if (!visible) {
+            visible = true;
+            fx = mx;
+            fy = my;
+            root.classList.add("pc--visible");
+            document.body.classList.add("custom-cursor-active");
+          }
+          const next = resolve(e.target as Element);
+          root.dataset.mode = next.mode;
+          labelText.textContent = next.label;
+          labelArrow.hidden = !next.arrow;
+          label.hidden = !next.label && !next.arrow;
+        },
+        { passive: true }
+      );
+
+      const loop = () => {
+        fx += (mx - fx) * 0.18;
+        fy += (my - fy) * 0.18;
+        place(dot, mx, my);
+        place(ring, fx, fy);
+        place(glow, fx, fy);
+        place(label, fx + 22, fy + 18);
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    }
+  }
+</script>

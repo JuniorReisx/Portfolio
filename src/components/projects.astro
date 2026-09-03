@@ -42,20 +42,20 @@ const statusStyles: Record<
 
 const projects: Project[] = [
   {
-    title: "PID - FullStack",
-    subtitle: "Decarbonization platform",
+    title: "PID Energy Platform",
+    subtitle: "Maps, dashboards & energy transition",
     image: PID as ImageMetadata,
     imageAlt: "PID decarbonization platform dashboard with maps and charts",
     link: "https://github.com/JuniorReisx/PID---Frontend",
     preview: "https://hackathon-bice-six-49.vercel.app/",
     status: "deployed",
     description:
-      "Smart maps, dashboards, and gamification on Brazil’s energy transition, with AI-assisted insights.",
+      "Web GIS for Brazil’s energy transition: MapLibre maps, spatial dashboards, and AI-assisted insights for decarbonization scenarios.",
     tags: [
+      "MapLibre GL",
+      "Web GIS",
       "React",
       "Vite",
-      "Tailwind",
-      "MapLibre GL",
       "Recharts",
       "Node.js",
       "Express",
@@ -63,33 +63,33 @@ const projects: Project[] = [
     metrics: "Live demo",
   },
   {
-    title: "Portal SIHS - Frontend",
-    subtitle: "Systems intranet",
+    title: "SIHS Digital Portal",
+    subtitle: "Government systems intranet",
     image: portal as ImageMetadata,
     imageAlt: "SIHS unified systems portal home screen",
     link: "https://github.com/JuniorReisx/Portal---Intranet",
     preview: "https://sihs-intranet.vercel.app/",
     status: "deployed",
     description:
-      "Centralized access to SIHS digital services with dynamic navigation and a responsive React and TypeScript UI.",
+      "Unified entry point to SIHS digital services for water and sanitation teams — navigation, responsive UI, and TypeScript throughout.",
     tags: ["React", "TypeScript", "Vite", "Tailwind", "React Router"],
     metrics: "Live demo",
   },
   {
-    title: "Movelo - Frontend",
-    subtitle: "Fleet & logistics",
+    title: "Movelo Operations",
+    subtitle: "Fleet tracking & logistics",
     image: movelo as ImageMetadata,
     imageAlt: "Movelo fleet and logistics management dashboard",
     link: "https://github.com/JuniorReisx/Movelo",
     status: "private",
     description:
-      "Internal platform with role-based access, real-time tracking, and operational dashboards.",
+      "Internal operations platform with role-based access, location-aware tracking, and dashboards for fleet and logistics teams.",
     tags: ["React", "TypeScript", "Node.js", "PostgreSQL"],
     metrics: "Enterprise",
   },
   {
-    title: "Meeting System - FullStack",
-    subtitle: "SIHS scheduling",
+    title: "SIHS Meeting System",
+    subtitle: "Room booking for government",
     image: meeting as ImageMetadata,
     imageAlt: "SIHS meeting room booking system interface",
     link: "https://github.com/JuniorReisx/SIHS-meeting",
@@ -109,9 +109,10 @@ const projects: Project[] = [
 >
   <div class="max-w-5xl mx-auto px-4 sm:px-0">
     <SectionHeader
-      eyebrow="Portfolio"
-      title="Projects that prove the craft"
-      description="Production systems at SIHS, private enterprise tools, and public demos — clear scope and stack on every card."
+      index="02"
+      eyebrow="Selected work"
+      title="GIS products and operational systems"
+      description="Web maps, government platforms, and internal tools — the work that proves I ship GIS as software, not slides."
     />
 
     <ul class="projects-grid" role="list">
@@ -121,7 +122,7 @@ const projects: Project[] = [
           return (
             <li>
               <article
-                class="reveal-on-scroll project-card group"
+                class="reveal-on-scroll project-card project-card-glow group" data-spotlight data-cursor="project" data-cursor-label="View"
                 style={`transition-delay: ${i * 0.05}s`}
               >
                 <div class="project-thumb">
@@ -253,7 +254,7 @@ const projects: Project[] = [
     flex-direction: column;
     height: 100%;
     overflow: hidden;
-    border-radius: 1rem;
+    border-radius: 0;
     border: 1px solid #ffffff10;
     background: linear-gradient(145deg, #ffffff0a 0%, #ffffff02 100%);
     transition:

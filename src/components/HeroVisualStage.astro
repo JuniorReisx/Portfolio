@@ -1,0 +1,60 @@
+---
+import LetterGlitch from "../React/LetterGlitch.tsx";
+
+const stack = [
+  "QGIS · MapLibre · PostGIS",
+  "React · TypeScript · Node.js",
+  "PostgreSQL · GeoJSON · LDAP",
+  "Web GIS · Water infrastructure",
+];
+
+const metrics = [
+  { value: "3+", label: "Years shipping" },
+  { value: "15+", label: "Projects live" },
+  { value: "SIHS", label: "Public GIS role" },
+  { value: "UTC−3", label: "Salvador, BR" },
+];
+---
+
+<div class="hero-visual-stage relative w-full max-w-[30rem] lg:ml-auto" data-hero-visual>
+  <div class="hero-visual-frame pointer-events-none absolute -inset-3" aria-hidden="true"></div>
+  <div class="hero-visual-grid pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <div class="relative z-[2] flex flex-col gap-4 p-4">
+    <div class="hero-visual-hud flex items-center justify-between gap-3 px-3 py-2.5">
+      <span class="type-label !text-[0.625rem] !tracking-[0.2em]">gis.pipeline</span>
+      <span class="inline-flex items-center gap-2 type-label !text-[0.625rem] !text-[var(--accent-primary)]">
+        <span class="hero-avail-dot scale-75" aria-hidden="true"></span>
+        shipping
+      </span>
+    </div>
+
+    <div class="relative h-[220px] md:h-[240px] overflow-hidden hero-visual-scene-wrap">
+      <LetterGlitch
+        client:load
+        glitchColors={["#5c2118", "#E8442F", "#1a0a08"]}
+        glitchSpeed={33}
+        centerVignette={false}
+        outerVignette={true}
+        smooth={true}
+      />
+    </div>
+
+    <div class="hero-stack-feed overflow-hidden py-2.5" aria-hidden="true">
+      <div class="hero-stack-feed-track flex gap-10 whitespace-nowrap type-label !text-[0.625rem] !tracking-[0.14em]">
+        {[...stack, ...stack].map((line) => <span>{line}</span>)}
+      </div>
+    </div>
+
+    <ul class="grid grid-cols-2 gap-2">
+      {
+        metrics.map((m) => (
+          <li class="hero-visual-metric px-3 py-3">
+            <p class="font-display text-lg font-semibold tracking-tight text-[var(--text-primary)]">{m.value}</p>
+            <p class="type-label !text-[0.6rem] mt-1">{m.label}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

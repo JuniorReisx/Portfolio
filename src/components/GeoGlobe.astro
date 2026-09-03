@@ -1,0 +1,271 @@
+---
+const SALVADOR = { lat: -12.9714, lon: -38.5014 };
+---
+
+<div class="geo-stage" data-hero-visual>
+  <div class="geo-stage-frame" aria-hidden="true"></div>
+  <canvas id="geo-globe" class="geo-globe" aria-hidden="true"></canvas>
+
+  <div class="geo-hud">
+    <div class="geo-hud-row">
+      <span class="type-label">datum</span>
+      <span class="geo-hud-val">WGS 84 · EPSG:4326</span>
+    </div>
+    <div class="geo-hud-row">
+      <span class="type-label">origin</span>
+      <span class="geo-hud-val">Salvador · Bahia · Brasil</span>
+    </div>
+    <div class="geo-hud-row">
+      <span class="type-label">fix</span>
+      <span class="geo-hud-val tabular" id="geo-coords">
+        {SALVADOR.lat.toFixed(4)}°S · {Math.abs(SALVADOR.lon).toFixed(4)}°W
+      </span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .geo-stage {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    max-width: 30rem;
+    margin-inline: auto;
+    aspect-ratio: 1;
+    min-height: 20rem;
+  }
+
+  .geo-stage-frame {
+    position: absolute;
+    inset: 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--accent-primary) 22%, var(--border-subtle));
+    pointer-events: none;
+  }
+
+  .geo-globe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .geo-hud {
+    position: absolute;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.85rem 1rem;
+    background: color-mix(in srgb, var(--bg-void) 82%, transparent);
+    border: 1px solid var(--border-subtle);
+    backdrop-filter: blur(12px);
+  }
+
+  .geo-hud-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  .geo-hud-val {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById("geo-globe") as HTMLCanvasElement | null;
+  if (!canvas) {
+    /* skip */
+  } else {
+    const ctx = canvas.getContext("2d");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const BRAZIL: [number, number][] = [
+      [-51.6, 4.4], [-50.2, 1.7], [-48.5, -0.5], [-44.3, -2.4],
+      [-40.3, -2.9], [-38.5, -8.5], [-35.0, -8.0], [-34.8, -12.5],
+      [-38.9, -15.8], [-39.0, -17.9], [-40.7, -21.3], [-40.9, -22.0],
+      [-43.5, -23.0], [-44.7, -23.4], [-48.3, -25.5], [-48.5, -27.8],
+      [-49.3, -28.9], [-52.0, -32.0], [-53.5, -33.7], [-57.6, -30.2],
+      [-57.6, -27.2], [-54.2, -25.5], [-54.6, -22.0], [-58.2, -20.2],
+      [-57.9, -17.3], [-61.1, -13.4], [-65.3, -11.0], [-66.9, -9.9],
+      [-73.2, -7.5], [-70.0, -4.2], [-69.9, -1.0], [-66.9, 1.2],
+      [-64.0, 2.0], [-60.0, 5.2], [-51.6, 4.4],
+    ];
+
+    const SAL = { lat: -12.9714, lon: -38.5014 };
+
+    const project = (lat: number, lon: number, rot: number) => {
+      const λ = ((lon + rot) * Math.PI) / 180;
+      const φ = (lat * Math.PI) / 180;
+      const x = Math.cos(φ) * Math.sin(λ);
+      const y = Math.sin(φ);
+      const z = Math.cos(φ) * Math.cos(λ);
+      return { x, y, z, vis: z > -0.02 };
+    };
+
+    let rot = 48;
+    let t = 0;
+    let w = 0;
+    let h = 0;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      const dpr = Math.min(devicePixelRatio, 2);
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const draw = (now: number) => {
+      if (!ctx) return;
+      t = now * 0.001;
+      if (!reduce) rot = 48 + Math.sin(t * 0.18) * 10;
+
+      ctx.clearRect(0, 0, w, h);
+      const cx = w / 2;
+      const cy = h / 2 - 8;
+      const r = Math.min(w, h) * 0.34;
+
+      const ocean = ctx.createRadialGradient(cx - r * 0.2, cy - r * 0.25, r * 0.1, cx, cy, r * 1.15);
+      ocean.addColorStop(0, "#12323a");
+      ocean.addColorStop(0.55, "#0a1c24");
+      ocean.addColorStop(1, "#061018");
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = ocean;
+      ctx.fill();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.clip();
+
+      ctx.strokeStyle = "rgba(62, 207, 200, 0.14)";
+      ctx.lineWidth = 1;
+      for (let lon = -180; lon < 180; lon += 15) {
+        ctx.beginPath();
+        let started = false;
+        for (let lat = -90; lat <= 90; lat += 3) {
+          const p = project(lat, lon, rot);
+          if (!p.vis) {
+            started = false;
+            continue;
+          }
+          const x = cx + p.x * r;
+          const y = cy - p.y * r;
+          if (!started) {
+            ctx.moveTo(x, y);
+            started = true;
+          } else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      for (let lat = -75; lat <= 75; lat += 15) {
+        ctx.beginPath();
+        let started = false;
+        for (let lon = -180; lon <= 180; lon += 4) {
+          const p = project(lat, lon, rot);
+          if (!p.vis) {
+            started = false;
+            continue;
+          }
+          const x = cx + p.x * r;
+          const y = cy - p.y * r;
+          if (!started) {
+            ctx.moveTo(x, y);
+            started = true;
+          } else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      let started = false;
+      for (const [lon, lat] of BRAZIL) {
+        const p = project(lat, lon, rot);
+        if (!p.vis) {
+          started = false;
+          continue;
+        }
+        const x = cx + p.x * r;
+        const y = cy - p.y * r;
+        if (!started) {
+          ctx.moveTo(x, y);
+          started = true;
+        } else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = "rgba(212, 162, 74, 0.55)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(212, 162, 74, 0.95)";
+      ctx.lineWidth = 1.25;
+      ctx.stroke();
+
+      const pin = project(SAL.lat, SAL.lon, rot);
+      if (pin.vis) {
+        const px = cx + pin.x * r;
+        const py = cy - pin.y * r;
+        const pulse = reduce ? 1 : 0.65 + Math.sin(t * 2.4) * 0.35;
+        ctx.beginPath();
+        ctx.arc(px, py, 14 * pulse, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(62, 207, 200, ${0.12 * pulse})`;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+        ctx.fillStyle = "#3ecfc8";
+        ctx.fill();
+        ctx.strokeStyle = "#e6e1d4";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      ctx.restore();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(230, 225, 212, 0.22)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.strokeStyle = "rgba(62, 207, 200, 0.28)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(cx - r - 10, cy);
+      ctx.lineTo(cx - r + 8, cy);
+      ctx.moveTo(cx + r - 8, cy);
+      ctx.lineTo(cx + r + 10, cy);
+      ctx.moveTo(cx, cy - r - 10);
+      ctx.lineTo(cx, cy - r + 8);
+      ctx.moveTo(cx, cy + r - 8);
+      ctx.lineTo(cx, cy + r + 10);
+      ctx.stroke();
+
+      const glow = ctx.createRadialGradient(cx, cy, r * 0.7, cx, cy, r * 1.45);
+      glow.addColorStop(0, "rgba(62, 207, 200, 0)");
+      glow.addColorStop(1, "rgba(62, 207, 200, 0.08)");
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * 1.45, 0, Math.PI * 2);
+      ctx.fill();
+
+      requestAnimationFrame(draw);
+    };
+
+    window.addEventListener("resize", resize, { passive: true });
+    resize();
+    requestAnimationFrame(draw);
+  }
+</script>

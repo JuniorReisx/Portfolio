@@ -1,35 +1,22 @@
 ---
 const technologies = [
-  "astro",
-  "typescript", 
-  "java",
+  "arcgis",
+  "qgis",
+  "maplibre",
+  "postgis",
+  "typeScript",
   "react",
-  "angular",
-  "express",
   "nodejs",
-  "springboot",
-  "mysql",
+  "express",
   "postgresql",
-  "graphql",
-  "aws",
-  "git", 
-  "github",
+  "java",
+  "springboot",
   "docker",
-  "jenkins",
-  "terraform",
-  "ansible",
-  "prometheus",
-  "grafana",
-  "kubernetes",
-  "bash",
-  "shellscript",
   "linux",
-  "mongodb",
-  "sequelize",
-  "cypress",
-  "jest",
-  "supabase",
-  "framer"
+  "git",
+  "github",
+  "aws",
+  "astro",
 ];
 ---
 
@@ -56,12 +43,13 @@ const technologies = [
             loading="lazy"
           />
           <span class="text-lg font-medium text-[var(--white-icon)]">
-            {tech === 'springboot' ? 'Spring Boot' : 
-             tech === 'shellscript' ? 'Shell Script' :
+            {tech === 'springboot' ? 'Spring Boot' :
              tech === 'postgresql' ? 'PostgreSQL' :
-             tech === 'mongodb' ? 'MongoDB' :
-             tech === 'graphql' ? 'GraphQL' :
-             tech === 'typescript' ? 'TypeScript' :
+             tech === 'typeScript' ? 'TypeScript' :
+             tech === 'maplibre' ? 'MapLibre' :
+             tech === 'postgis' ? 'PostGIS' :
+             tech === 'qgis' ? 'QGIS' :
+             tech === 'arcgis' ? 'ArcGIS' :
              tech.charAt(0).toUpperCase() + tech.slice(1)}
           </span>
         </div>
