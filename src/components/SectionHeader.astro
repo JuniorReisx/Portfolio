@@ -21,11 +21,3 @@ const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
     <p class="mt-5 type-lead">{description}</p>
   )}
 </div>
-
-<div class={`reveal-on-scroll mb-12 md:mb-16 max-w-2xl ${alignClass}`}>
-  <p class={`section-label mb-4 ${align === "center" ? "justify-center" : ""}`}>{eyebrow}</p>
-  <h2 class="section-title">{title}</h2>
-  {description && (
-    <p class="mt-5 type-lead">{description}</p>
-  )}
-</div>

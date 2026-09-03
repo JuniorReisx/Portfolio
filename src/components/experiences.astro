@@ -23,28 +23,24 @@ const experiences: Experience[] = [
   {
     company: "Secretariat of Water Infrastructure and Sanitation · Government of Bahia",
     companyShort: "SIHS · Bahia, Brazil",
-    role: "Software Engineer, GIS",
+    role: "Software Developer",
     period: "2025 — Present",
     type: "Full-time",
-    focus: "Primary focus: ArcGIS Enterprise at SIHS — web maps, dashboards, Experience Builder, and GIS applications in production.",
+    focus: "ArcGIS Enterprise for hydraulic planning and water/sanitation networks.",
     description:
-      "I build the software that puts water infrastructure on a map and into daily operations. At SIHS I work on ArcGIS Enterprise: I publish web maps, build ArcGIS Dashboards, and ship Experience Builder applications so water and sanitation teams can run the network from the browser. GIS is the core. The rest of the job is engineering — APIs, auth, and internal products used by people who never open a GIS desktop.",
+      "Publish and maintain the GIS stack water teams use in the browser, plus the surrounding software — REST APIs, auth, and internal tools that sit on the same government infrastructure.",
     highlights: [
       {
         k: "ArcGIS",
-        v: "ArcGIS Enterprise as the production GIS stack — web maps, Dashboards, Experience Builder, and GIS applications for hydraulic planning and water/sanitation networks.",
-      },
-      {
-        k: "Apps",
-        v: "Operational apps on that stack: interactive web maps, monitoring dashboards, and Experience Builder experiences for field and office staff.",
+        v: "Web maps, Dashboards, and Experience Builder apps for network planning and field/office staff.",
       },
       {
         k: "Data",
-        v: "PostGIS / PostgreSQL as the source of truth; REST APIs so ArcGIS apps, maps, and ops tools consume the same spatial + operational data.",
+        v: "PostGIS / PostgreSQL as source of truth; APIs shared by maps and ops tools.",
       },
       {
         k: "Software",
-        v: "Internal products beyond the map: systems portal and meeting-room booking with LDAP on government infrastructure.",
+        v: "Systems portal and meeting-room booking with LDAP — products beyond the map.",
       },
     ],
     technologies: [
@@ -121,8 +117,8 @@ const experiences: Experience[] = [
     <SectionHeader
       index="03"
       eyebrow="Experience"
-      title="GIS is the focus. Software is how it ships."
-      description="ArcGIS Enterprise at SIHS in Bahia — web maps, dashboards, Experience Builder — and the engineering around it: APIs, auth, and products people use without speaking GIS."
+      title="Where I’ve worked"
+      description="SIHS software & GIS, infrastructure support at Paraguaçu, and independent web products."
       align="center"
     />
 
@@ -137,14 +133,14 @@ const experiences: Experience[] = [
 
             <div class="exp-card-inner">
               <header class="exp-card-header">
-                <div class="exp-logo-wrap">
+                <div class={`exp-logo-wrap${index === 0 ? " exp-logo-wrap--brasao" : ""}`}>
                   {exp.isImage ? (
                     <Image
                       src={exp.logo as ImageMetadata}
                       alt={exp.company}
                       class="exp-logo-img"
-                      width={80}
-                      height={80}
+                      width={index === 0 ? 112 : 80}
+                      height={index === 0 ? 136 : 80}
                     />
                   ) : (
                     <span class="exp-logo-emoji">{exp.logo}</span>
@@ -271,6 +267,13 @@ const experiences: Experience[] = [
     transition: transform 0.35s ease;
   }
 
+  .exp-logo-wrap--brasao {
+    width: 3.5rem;
+    height: 4.25rem;
+    border-radius: 0.65rem;
+    background: #fff;
+  }
+
   .exp-card:hover .exp-logo-wrap {
     transform: scale(1.05);
   }
@@ -279,6 +282,7 @@ const experiences: Experience[] = [
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
 
   .exp-logo-emoji {

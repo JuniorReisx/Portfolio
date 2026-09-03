@@ -11,23 +11,10 @@ type Module = {
 
 const modules: Module[] = [
   {
-    id: "gis",
-    code: "GIS-01",
-    name: "Spatial engine",
-    status: "core",
-    stack: ["ArcGIS Enterprise", "Experience Builder", "Dashboards", "PostGIS", "QGIS"],
-    log: [
-      "ArcGIS Enterprise at SIHS — web maps, Dashboards, Experience Builder apps",
-      "GIS applications for water and sanitation operations, not desktop-only GIS",
-      "PostGIS / PostgreSQL for infrastructure & hydrology data",
-      "MapLibre when a custom web map runtime is the right call",
-    ],
-  },
-  {
     id: "app",
-    code: "APP-02",
+    code: "APP-01",
     name: "Application layer",
-    status: "online",
+    status: "core",
     stack: ["React", "TypeScript", "Vite", "Tailwind"],
     log: [
       "React + TypeScript for government and enterprise surfaces",
@@ -37,14 +24,26 @@ const modules: Module[] = [
   },
   {
     id: "api",
-    code: "API-03",
+    code: "API-02",
     name: "Services & data",
     status: "online",
     stack: ["Node.js", "Express", "PostgreSQL", "LDAP", "Spring Boot"],
     log: [
-      "Node/Express APIs for operational GIS and internal systems",
-      "Spatial SQL, relational models, LDAP / Active Directory",
+      "Node/Express APIs for internal and operational systems",
+      "Relational models, LDAP / Active Directory, spatial SQL when needed",
       "Spring Boot when the backend has to live on Java",
+    ],
+  },
+  {
+    id: "gis",
+    code: "GIS-03",
+    name: "Spatial stack",
+    status: "online",
+    stack: ["ArcGIS Enterprise", "Experience Builder", "Dashboards", "PostGIS", "QGIS"],
+    log: [
+      "Enterprise web maps, Dashboards, Experience Builder",
+      "PostGIS for infrastructure & hydrology data",
+      "MapLibre when a custom map runtime fits better",
     ],
   },
   {
@@ -54,8 +53,8 @@ const modules: Module[] = [
     status: "online",
     stack: ["PWA", "Geolocation", "React Native"],
     log: [
-      "Mobile-first GIS UIs for field and office",
-      "Location-aware flows — GPS, maps, asset in the street",
+      "Mobile-first UIs for field and office staff",
+      "Location-aware flows when GPS and maps are part of the job",
       "React Native when a native shell is the right call",
     ],
   },
@@ -66,8 +65,8 @@ const modules: Module[] = [
     status: "online",
     stack: ["Figma", "Design systems", "A11y"],
     log: [
-      "Figma → component systems for GIS and internal products",
-      "Workflows designed for public-sector operators, not designers",
+      "Figma → component systems for product UIs",
+      "Workflows designed for operators, not designers",
       "Accessible, high-contrast interfaces that survive real use",
     ],
   },
@@ -79,8 +78,8 @@ const modules: Module[] = [
     stack: ["Git", "CI/CD", "Docker", "Linux", "Vercel"],
     log: [
       "Git-based delivery, CI/CD, Vercel and internal infra",
-      "Docker + Linux so GIS apps leave the laptop",
-      "Pipelines that ship maps the same way they ship APIs",
+      "Docker + Linux so apps leave the laptop",
+      "Pipelines that ship frontends and APIs the same way",
     ],
   },
 ];
@@ -97,7 +96,7 @@ export default function SkillsList() {
           <h3 className="stack-console-title">Systems I run in production</h3>
         </div>
         <p className="stack-console-lead">
-          GIS as software — spatial engine, APIs, and interfaces. Not a tool list. A runtime.
+          Full stack in production — UI, APIs, data, GIS, and delivery.
         </p>
       </header>
 
